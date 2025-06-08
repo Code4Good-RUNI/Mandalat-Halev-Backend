@@ -100,4 +100,45 @@ router.get('/contacts', async (req, res) => {
     }
 });
 
+/** START User Functions (Omer & Rotem) */
+
+//! DELETE LIMITS!
+
+
+// Boilerplate for user functions:
+// START BOILERPLATE
+/**
+ * Retrieve The {?} from Salesforce
+ * 
+ * 
+ * @route GET /{?}
+ * @returns {?}
+ * @throws {401} If not authenticated with Salesforce
+ * @throws {500} If there's an error fetching contacts
+ */
+router.get('/{?}', async (req, res) => {
+    const { accessToken, instanceUrl } = salesforce_session;
+  
+    if (!accessToken || !instanceUrl) {
+        return res.status(401).json({ error: 'Not authenticated with Salesforce' });
+    }
+    // Create a new connection to Salesforce
+    const conn = new jsforce.Connection({
+        accessToken,
+        instanceUrl
+    });
+  
+    try {
+      // Query Salesforce for contacts
+        const result = await conn.query('SELECT {?} FROM {?} LIMIT 10');
+        res.json(result.records);
+    } catch (err) {
+        console.error('Error fetching contacts:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+// END BOILERPLATE
+
+/** END User Functions (Omer & Rotem) */
+
 module.exports = router;
