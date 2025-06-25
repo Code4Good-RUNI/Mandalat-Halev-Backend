@@ -1,5 +1,5 @@
 // Helper for Salesforce contact lookup
-const { salesforce_session } = require('./salesforce');
+const salesforce_session = require('./salesforce-session');
 const jsforce = require('jsforce');
 
 async function getContactByIdAndEmail(userId, email) {
