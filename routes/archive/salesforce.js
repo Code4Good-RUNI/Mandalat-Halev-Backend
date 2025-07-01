@@ -11,8 +11,8 @@
 const express = require('express');
 const jsforce = require('jsforce');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const salesforce_session = require('../salesforce-session');
-const authenticate = require('../middleware/auth');
+const salesforce_session = require('../../salesforce-session');
+const authenticate = require('../../middleware/auth');
 
 const router = express.Router();
 
