@@ -8,6 +8,8 @@ npm-shrinkwrap.json
 # dotenv
 .env
 
+descriptions/
+
 # Coveralls
 .nyc_output
 coverage
