@@ -13,8 +13,9 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "jsonwebtoken": "^9.0.2",
     "jsforce": "^3.8.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
     "morgan": "~1.9.1",
     "nodemailer": "^7.0.3",
     "twilio": "^5.7.1"
