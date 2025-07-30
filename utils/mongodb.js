@@ -35,7 +35,7 @@ async function connectToDatabase() {
 }
 
 /**
- * GEt the push tokens collection
+ * Get the push tokens collection
  * @returns {Promise<Collection>} MongoDB collection for push tokens
  */
 async function getPushTokensCollection() {
