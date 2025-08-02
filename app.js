@@ -13,9 +13,13 @@ app.use(express.urlencoded({ extended: false }));
 
 // routes:
 app.use('/auth', authRouter);
+app.use('/register-push-token', require('./routes/register-push-token'));
+app.use('/register-push-token-test', require('./routes/register-push-token-test')); // For testing- remove in production 
+
 
 // error handling middleware
 app.use(notFoundHandler);
 app.use(errorHandler);
+
 
 module.exports = app;

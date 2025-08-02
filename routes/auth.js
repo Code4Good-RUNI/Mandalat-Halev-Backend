@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { getContactByIdAndEmail } = require('../utils/salesforce-helper');
+const authenticate = require('../middleware/auth'); 
 require('dotenv').config();
 
 const router = express.Router();
