@@ -79,4 +79,36 @@ router.get('/protected-contacts', authenticate, async (req, res) => {
     }
 });
 
+
+// Add this to your routes/auth.js or create a new test route
+
+router.get('/test-salesforce', async (req, res) => {
+    try {
+        const { withSalesforceRetry } = require('../utils/salesforceRetry');
+        
+        const result = await withSalesforceRetry(async (conn) => {
+            // Simple query to test connection
+            const queryResult = await conn.query('SELECT COUNT() FROM Contact LIMIT 1');
+            return {
+                connected: true,
+                contactCount: queryResult.totalSize,
+                instanceUrl: conn.instanceUrl
+            };
+        });
+        
+        res.json({
+            status: 'success',
+            message: 'Salesforce connection is working',
+            data: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'Salesforce connection failed',
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;
+
