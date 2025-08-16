@@ -3,7 +3,7 @@
 const { MongoClient } = require('mongodb');
 
 // MongoDB env. variables
-const MOMGODB_URI = process.env.MOMGODB_URI || 'mongodb://localhost:27017';
+const MOMGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const DATABASE_NAME = process.env.DATABASE_NAME || 'mandalat_halev';
 
 let client = null;
@@ -17,7 +17,7 @@ async function connectToDatabase() {
    try {
       if (!client) {
          console.log('Connecting to MongoDB...');
-         client = new MongoClient(MOMGODB_URI);
+         client = new MongoClient(MONGODB_URI);
          await client.connect();
          console.log('Connected to MongoDB succesfully');
       }
