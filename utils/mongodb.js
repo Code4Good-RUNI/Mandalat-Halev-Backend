@@ -3,7 +3,7 @@
 const { MongoClient } = require('mongodb');
 
 // MongoDB env. variables
-const MOMGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const DATABASE_NAME = process.env.DATABASE_NAME || 'mandalat_halev';
 
 let client = null;
