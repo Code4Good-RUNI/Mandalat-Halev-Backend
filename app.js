@@ -66,6 +66,7 @@ async function initializeSalesforce() {
         await withSalesforceRetry(async (conn) => {
             // Simple test query
             const result = await conn.query('SELECT COUNT() FROM Contact LIMIT 1');
+            console.log(`result: ${JSON.stringify(result)}`);
             console.log(`✅ Salesforce connection established successfully (${result.totalSize} contacts found)`);
             return result;
         });

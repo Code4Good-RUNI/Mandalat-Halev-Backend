@@ -16,23 +16,26 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret';
 
 // 1. Request code endpoint
 router.post('/request-code', async (req, res) => {
-  const { userId, email } = req.body;
-  if (!userId || !email) return res.status(400).json({ error: 'Missing userId or email' });
+    console.log('Requesting code with body:', req.body);
+    const { userId, email } = req.body;
+    if (!userId || !email) return res.status(400).json({ error: 'Missing userId or email' });
 
-  // Check with Salesforce
-  const contact = await getContactByIdAndEmail(userId, email);
-  if (!contact) return res.status(404).json({ error: 'Contact not found' });
+    // Check with Salesforce
+    const contact = await getContactByIdAndEmail(userId, email);
+    if (!contact) return res.status(404).json({ error: 'Contact not found' });
+    console.log('Contact found:', contact);
 
-  // Generate code and store
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
-  codeStore[`${userId}:${email}`] = { code, expires: Date.now() + 5 * 60 * 1000 };
+    // Generate code and store
+    console.log(`Generating code for userId: ${userId}, email: ${email}`);
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    codeStore[`${userId}:${email}`] = { code, expires: Date.now() + 5 * 60 * 1000 };
 
-  // TODO: Send code via SMS or
-  
-  // output the code to console instead of sending SMS
-  console.log(`Your authentication code is: ${code}`);
+    // TODO: Send code via SMS or email
 
-  res.json({ message: 'Code sent' });
+    // output the code to console instead of sending SMS
+    console.log(`Your authentication code is: ${code}`);
+
+    res.json({ message: 'Code sent' });
 });
 
 // 2. Verify code endpoint
