@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { getContactByIdAndEmail } = require('../utils/salesforce-helper');
+const { getContactByIdAndEmail } = require('../../utils/salesforce-helper');
 require('dotenv').config();
 
 const router = express.Router();

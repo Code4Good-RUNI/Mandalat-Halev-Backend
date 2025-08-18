@@ -2,10 +2,10 @@ require('dotenv').config();
 var express = require('express');
 var logger = require('morgan'); // Using morgan for logging requests
 
-const { notFoundHandler, errorHandler } = require('./middleware/error-handlers');
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/on-user-request/auth');
 
 var app = express();
+const { notFoundHandler, errorHandler } = require('./middleware/error-handlers');
 
 app.use(logger('dev'));
 app.use(express.json());
