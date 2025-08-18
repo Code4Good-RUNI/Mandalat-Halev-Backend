@@ -40,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/auth', authRouter);
 app.use('/register-push-token', require('./routes/register-push-token'));
 app.use('/register-push-token-test', require('./routes/register-push-token-test'));
+app.use('/debug', require('./routes/debug/show-objects'));
 
 // error handling middleware
 app.use(notFoundHandler);
