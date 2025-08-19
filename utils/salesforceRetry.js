@@ -1,6 +1,7 @@
 // utils/salesforceRetry.js
 
 const jsforce = require('jsforce');
+const salesforce_session = require('../salesforce-session');
 
 async function withSalesforceRetry(callbackFn) {
   try {
@@ -52,9 +53,12 @@ async function getValidToken(force = false) {
     accessToken: data.access_token,
     instanceUrl: data.instance_url
   };
+  salesforce_session.accessToken = tokenData.accessToken;
+  salesforce_session.instanceUrl = tokenData.instanceUrl;
 
   console.log('✅ Access token acquired successfully');
   return tokenData;
 }
+
 
 module.exports = { withSalesforceRetry };
