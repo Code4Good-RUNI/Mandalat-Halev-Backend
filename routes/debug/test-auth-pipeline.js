@@ -124,8 +124,8 @@ async function testBasicConnectivity() {
     
     try {
         console.log('Testing basic server connectivity...');
-        const response = await makeRequest('GET', '/salesforce/status');
-        
+        const response = await makeRequest('POST', '/auth/request-code', TEST_USER);
+
         if (response.status === 200) {
             logTest('Server Connectivity', true, `Server responding, Salesforce: ${response.data.connected ? 'Connected' : 'Disconnected'}`);
             return true;

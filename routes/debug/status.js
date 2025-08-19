@@ -1,5 +1,5 @@
 const express = require('express');
-const salesforce_session = require('/salesforce-session');
+const salesforce_session = require('../../salesforce-session');
 
 const router = express.Router();
 
