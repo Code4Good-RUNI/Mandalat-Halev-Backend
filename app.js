@@ -41,7 +41,7 @@ app.use('/auth', authRouter);
 app.use('/register-push-token', require('./routes/register-push-token'));
 app.use('/register-push-token-test', require('./routes/register-push-token-test'));
 app.use('/debug', require('./routes/debug/show-objects'));
-
+app.use('/status', require('./routes/debug/status'));
 // error handling middleware
 app.use(notFoundHandler);
 app.use(errorHandler);
