@@ -16,9 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/user_auth', authRouter);
 app.use('/register-push-token', require('./routes/register-push-token'));
 app.use('/register-push-token-test', require('./routes/register-push-token-test'));
-app.use('/debug', require('./routes/debug/show-objects'));
-app.use('/status', require('./routes/debug/status'));
+app.use('/debug/show-objects', require('./routes/debug/show-objects'));
+app.use('/debug/status', require('./routes/debug/status'));
 app.use('/user/details', require('./routes/userRoutes/getUserDetails'));
+app.use('/user/campaigns', require('./routes/userRoutes/getAvailableCampaigns'));
+app.use('/debug/describe', require('./routes/debug/describe-schemes'));
 
 // error handling middleware
 app.use(notFoundHandler);

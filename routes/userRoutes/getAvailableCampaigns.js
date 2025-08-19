@@ -7,14 +7,12 @@ const { fetchObjectMetadata } = require('../../utils/metadata');
 const router = express.Router();
 
 /**
- * @route GET /user/details
- * @desc Return the authenticated user's Salesforce Contact record + field metadata
+ * @route GET /user/campaigns
+ * @desc Return all available campaigns + Salesforce Campaign metadata
  * @access Protected (JWT required)
  */
 router.get('/', auth_check, async (req, res) => {
   try {
-    const { userId, email } = req.user;
-
     if (!salesforce_session.accessToken || !salesforce_session.instanceUrl) {
       return res.status(401).json({ error: 'Not authenticated with Salesforce' });
     }
@@ -24,33 +22,33 @@ router.get('/', auth_check, async (req, res) => {
       instanceUrl: salesforce_session.instanceUrl
     });
 
-    console.log('[getUserDetails] JWT payload:', req.user);
+    console.log('[getAvailableCampaigns] Fetching campaigns...');
 
-    // Query Contact record
+    // Query all Campaigns first (no filters applied yet)
     const query = `
-      SELECT Id, FirstName, LastName, Email, Phone, CityName__c, Type__c, Gender__c,
-             Birthdate, AdsorbtionDate__c, RegisteredID__c
-      FROM Contact
-      WHERE (Email = '${email}' OR RegisteredID__c = '${userId}' OR Id = '${userId}')
-      LIMIT 1
+      SELECT Id, Name, Status, StartDate, EndDate, IsActive,
+             Description, NumberOfContacts, min_participants__c, max_participants__c
+      FROM Campaign
+      ORDER BY StartDate DESC
+      LIMIT 100
     `;
+
     const result = await conn.query(query);
 
     if (!result.records || result.records.length === 0) {
-      return res.status(404).json({ error: 'User not found in Salesforce' });
+      return res.status(404).json({ error: 'No campaigns found in Salesforce' });
     }
 
-    // Get metadata in-memory
-    const fields = await fetchObjectMetadata(conn, 'Contact');
+    // Get Campaign object metadata
+    const fields = await fetchObjectMetadata(conn, 'Campaign');
 
     res.json({
-      jwtUser: req.user,
-      salesforceContact: result.records[0],
-      contactFields: fields
+      campaigns: result.records,
+      campaignFields: fields
     });
 
   } catch (err) {
-    console.error('❌ Error in /user/details:', err);
+    console.error('❌ Error in /user/campaigns:', err);
     res.status(500).json({ error: err.message });
   }
 });
