@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/auth', authRouter);
 app.use('/register-push-token', require('./routes/register-push-token'));
 app.use('/register-push-token-test', require('./routes/register-push-token-test')); // For testing- remove in production 
+app.use('/send-push-test', require('./routes/send-push-test'));
+app.use('/check-receipts', require('./routes/check-receipts'));  // add this
 
 
 // error handling middleware

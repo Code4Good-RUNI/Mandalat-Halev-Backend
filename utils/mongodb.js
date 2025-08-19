@@ -6,6 +6,9 @@ const { MongoClient } = require('mongodb');
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const DATABASE_NAME = process.env.DATABASE_NAME || 'mandalat_halev';
 
+// Add debug logging
+console.log('🔗 MONGODB_URI:', MONGODB_URI);
+
 let client = null;
 let db = null;
 
@@ -17,9 +20,18 @@ async function connectToDatabase() {
    try {
       if (!client) {
          console.log('Connecting to MongoDB...');
-         client = new MongoClient(MONGODB_URI);
+         
+         // Updated SSL options for newer MongoDB driver
+         const options = {
+            tls: true,
+            serverSelectionTimeoutMS: 30000, // 30 seconds
+            connectTimeoutMS: 30000,
+            socketTimeoutMS: 30000,
+         };
+         
+         client = new MongoClient(MONGODB_URI, options);
          await client.connect();
-         console.log('Connected to MongoDB succesfully');
+         console.log('Connected to MongoDB successfully');
       }
 
       if (!db) {
@@ -54,11 +66,8 @@ async function closeConnection() {
    }
 }
 
-
-
 module.exports = {
    connectToDatabase,
    getPushTokensCollection,
    closeConnection
 }
-
