@@ -48,17 +48,10 @@ async function getValidToken(force = false) {
   if (data.error) {
     throw new Error(`Salesforce auth error: ${data.error_description || data.error}`);
   }
-
-  tokenData = {
-    accessToken: data.access_token,
-    instanceUrl: data.instance_url
-  };
-  salesforce_session.accessToken = tokenData.accessToken;
-  salesforce_session.instanceUrl = tokenData.instanceUrl;
+  salesforce_session.accessToken = data.access_token;
+  salesforce_session.instanceUrl = data.instance_url;
 
   console.log('✅ Access token acquired successfully');
-  return tokenData;
+  return salesforce_session;
 }
-
-
 module.exports = { withSalesforceRetry };

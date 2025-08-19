@@ -1,34 +1,9 @@
-// require('dotenv').config();
-// var express = require('express');
-// var logger = require('morgan'); // Using morgan for logging requests
-
-// const { notFoundHandler, errorHandler } = require('./middleware/error-handlers');
-// var authRouter = require('./routes/auth');
-
-// var app = express();
-
-// app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-
-// // routes:
-// app.use('/auth', authRouter);
-// app.use('/register-push-token', require('./routes/register-push-token'));
-// app.use('/register-push-token-test', require('./routes/register-push-token-test')); // For testing- remove in production 
-
-
-// // error handling middleware
-// app.use(notFoundHandler);
-// app.use(errorHandler);
-
-
-// module.exports = app;
 require('dotenv').config();
 var express = require('express');
 var logger = require('morgan');
 
 const { notFoundHandler, errorHandler } = require('./middleware/error-handlers');
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/user_auth');
 
 var app = express();
 
@@ -78,6 +53,7 @@ async function initializeSalesforce() {
         console.error('   Please check your .env file and Salesforce credentials');
     }
 }
+
 
 // Initialize Salesforce when the module is loaded
 initializeSalesforce();

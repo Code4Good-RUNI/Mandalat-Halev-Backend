@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { getContactByIdAndEmail } = require('../utils/salesforce-helper');
-const authenticate = require('../middleware/auth'); 
+const authenticate = require('../middleware/auth_check'); 
 const salesforce_session = require('../salesforce-session');
 const jsforce = require('jsforce');
 

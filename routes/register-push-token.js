@@ -1,6 +1,6 @@
 const express = require('express');
 const { getPushTokensCollection } = require('../utils/mongodb');
-const authenticate = require('../middleware/auth');
+const authenticate = require('../middleware/auth_check');
 
 const router = express.Router();
 
