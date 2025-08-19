@@ -37,8 +37,8 @@ router.post('/request-code', async (req, res) => {
     // TODO: Send code via SMS or email
 
     // output the code to console instead of sending SMS
-    console.log(`Your authentication code is: ${code}`);
-
+    console.log(`Your authentication code is: ${code}, saving to process.env.code`);
+    process.env.code = code;
     res.json({ message: 'Code sent' });
 });
 

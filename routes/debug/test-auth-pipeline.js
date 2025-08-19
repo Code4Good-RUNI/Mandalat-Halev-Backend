@@ -124,7 +124,7 @@ async function testBasicConnectivity() {
     
     try {
         console.log('Testing basic server connectivity...');
-        const response = await makeRequest('POST', '/auth/request-code', TEST_USER);
+        const response = await makeRequest('POST', '/user_auth/request-code', TEST_USER);
 
         if (response.status === 200) {
             logTest('Server Connectivity', true, `Server responding, Salesforce: ${response.data.connected ? 'Connected' : 'Disconnected'}`);
@@ -145,8 +145,8 @@ async function testHappyPath() {
     try {
         // Step 1: Request code
         console.log('Step 1: Requesting authentication code...');
-        const response1 = await makeRequest('POST', '/auth/request-code', TEST_USER);
-        
+        const response1 = await makeRequest('POST', '/user_auth/request-code', TEST_USER);
+
         if (response1.status !== 200) {
             logTest('Request Code', false, `Status: ${response1.status}, Response: ${JSON.stringify(response1.data)}`);
             return null;
@@ -169,7 +169,7 @@ async function testHappyPath() {
 
         // Step 2: Verify code
         console.log('Step 2: Verifying authentication code...');
-        const response2 = await makeRequest('POST', '/auth/verify-code', {
+        const response2 = await makeRequest('POST', '/user_auth/verify-code', {
             ...TEST_USER,
             code: code.trim()
         });
@@ -187,7 +187,7 @@ async function testHappyPath() {
 
         // Step 3: Test protected route
         console.log('Step 3: Testing protected route...');
-        const response3 = await makeRequest('GET', '/auth/protected-contacts', null, {
+        const response3 = await makeRequest('GET', '/user_auth/protected-contacts', null, {
             'Authorization': `Bearer ${jwt}`
         });
 
@@ -213,8 +213,8 @@ async function testCodeReuse(usedCode) {
     
     try {
         await sleep(config.requestDelay);
-        
-        const response = await makeRequest('POST', '/auth/verify-code', {
+
+        const response = await makeRequest('POST', '/user_auth/verify-code', {
             ...TEST_USER,
             code: usedCode
         });
@@ -235,12 +235,12 @@ async function testWrongCode() {
     try {
         // Request new code
         console.log('Requesting fresh code...');
-        await makeRequest('POST', '/auth/request-code', TEST_USER);
-        
+        await makeRequest('POST', '/user_auth/request-code', TEST_USER);
+
         await sleep(config.requestDelay);
         
         console.log('Testing with wrong code...');
-        const response = await makeRequest('POST', '/auth/verify-code', {
+        const response = await makeRequest('POST', '/user_auth/verify-code', {
             ...TEST_USER,
             code: '000000'
         });
@@ -261,8 +261,8 @@ async function testMissingParameters() {
     try {
         // Test missing userId
         await sleep(config.requestDelay);
-        const response1 = await makeRequest('POST', '/auth/request-code', { email: TEST_USER.email });
-        
+        const response1 = await makeRequest('POST', '/user_auth/request-code', { email: TEST_USER.email });
+
         if (response1.status === 400) {
             logTest('Missing UserId Validation', true, 'Correctly rejected missing userId');
         } else {
@@ -271,8 +271,8 @@ async function testMissingParameters() {
 
         // Test missing email  
         await sleep(config.requestDelay);
-        const response2 = await makeRequest('POST', '/auth/request-code', { userId: TEST_USER.userId });
-        
+        const response2 = await makeRequest('POST', '/user_auth/request-code', { userId: TEST_USER.userId });
+
         if (response2.status === 400) {
             logTest('Missing Email Validation', true, 'Correctly rejected missing email');
         } else {
@@ -291,7 +291,7 @@ async function testJWTValidation() {
         await sleep(config.requestDelay);
         
         // Test invalid token
-        const response1 = await makeRequest('GET', '/auth/protected-contacts', null, {
+        const response1 = await makeRequest('GET', '/user_auth/protected-contacts', null, {
             'Authorization': 'Bearer invalid.token.here'
         });
         
@@ -304,8 +304,8 @@ async function testJWTValidation() {
         await sleep(config.requestDelay);
         
         // Test missing authorization
-        const response2 = await makeRequest('GET', '/auth/protected-contacts');
-        
+        const response2 = await makeRequest('GET', '/user_auth/protected-contacts');
+
         if (response2.status === 401) {
             logTest('Missing Authorization Header', true, 'Correctly rejected request without token');
         } else {
