@@ -18,6 +18,8 @@ app.use('/register-push-token', require('./routes/register-push-token'));
 app.use('/register-push-token-test', require('./routes/register-push-token-test'));
 app.use('/debug', require('./routes/debug/show-objects'));
 app.use('/status', require('./routes/debug/status'));
+app.use('/user/details', require('./routes/userRoutes/getUserDetails'));
+
 // error handling middleware
 app.use(notFoundHandler);
 app.use(errorHandler);
@@ -77,7 +79,7 @@ async function initializeUserConnection() {
         }
         console.log('[APP.JS]✅ Authentication code verified successfully');
         process.env.user_token = response2.data.token;
-        console.log('[APP.JS]✅ User token saved to environment variable');
+        console.log(`[APP.JS]✅ User token ${process.env.user_token} saved to environment variable`);
 
         console.log('[APP.JS][3] - Checking User connection...');
         const response3 = await createRequest('GET', '/user_auth/protected-contacts', null, { Authorization: `Bearer ${process.env.user_token}` });
